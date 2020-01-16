@@ -13,8 +13,6 @@ function MyAccountScreen() {
     });
   }, []);
 
-  // return <Loading isVisible={true} text="Cargando..." />;
-
   if (login === null) {
     return <Loading isVisible={true} text="Cargando..." />;
   }
