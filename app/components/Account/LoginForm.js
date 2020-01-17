@@ -15,8 +15,9 @@ function LoginForm(props) {
 
   const login = async () => {
     setIsVisibleLoading(true);
-    console.log("email", email);
-    console.log("password", password);
+
+    // Quitar espacios en blanco
+    // setEmail(email.trimEnd());
 
     if (!email || !password) {
       toastRef.current.show("Todos los campos son obligatorios");
@@ -31,8 +32,6 @@ function LoginForm(props) {
             navigation.navigate("MyAccount");
           })
           .catch(error => {
-            console.log("error: ", error);
-
             toastRef.current.show("Email o contraseña incorrecta");
           });
       }
@@ -45,7 +44,7 @@ function LoginForm(props) {
       <Input
         placeholder="Correo electrónico"
         containerStyle={styles.inputForm}
-        onChange={e => setEmail(e.nativeEvent.text)}
+        onChange={e => setEmail(e.nativeEvent.text.trim())}
         rightIcon={
           <Icon
             type="material-community"

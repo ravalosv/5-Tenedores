@@ -6,7 +6,10 @@ import * as firebase from "firebase";
 import { FacebookApi } from "../../utils/Social";
 import Loading from "../Loading";
 
-export default function LoginFacebook() {
+export default function LoginFacebook(props) {
+  const { toastRef, navigation } = props;
+  const [isVisibleLoading, setIsVisibleLoading] = useState(false);
+
   const login = async () => {
     try {
       await Facebook.initializeAsync(FacebookApi.application_id);
@@ -19,17 +22,37 @@ export default function LoginFacebook() {
       } = await Facebook.logInWithReadPermissionsAsync({
         permissions: FacebookApi.permission
       });
+
       if (type === "success") {
-        // Get the user's name using Facebook's Graph API
+        setIsVisibleLoading(true);
         const response = await fetch(
           `https://graph.facebook.com/me?access_token=${token}`
         );
-        Alert.alert("Logged in!", `Hi ${(await response.json()).name}!`);
+
+        const credentials = firebase.auth.FacebookAuthProvider.credential(
+          token
+        );
+        await firebase
+          .auth()
+          .signInWithCredential(credentials)
+          .then(async () => {
+            toastRef.current.show(
+              "Bienvenido!",
+              `Hola ${await response.json().name}!`
+            );
+            navigation.navigate("MyAccount");
+          })
+          .catch(({ message }) => {
+            toastRef.current.show(`Facebook Login Error: ${message}`);
+          });
+        setIsVisibleLoading(false);
+      } else if (type === "cancel") {
+        toastRef.current.show("Inicio de sesion cancelado");
       } else {
-        // type === 'cancel'
+        toastRef.current.show("Error desconocido");
       }
     } catch ({ message }) {
-      alert(`Facebook Login Error: ${message}`);
+      toastRef.current.show(`Facebook Login Error: ${message}`);
     }
   };
   return (
@@ -40,6 +63,7 @@ export default function LoginFacebook() {
         type="facebook"
         onPress={login}
       />
+      <Loading text="Ingresando vía Facebook" isVisible={isVisibleLoading} />
     </View>
   );
 }
