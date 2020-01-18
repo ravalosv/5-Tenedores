@@ -2,6 +2,7 @@ import { createStackNavigator } from "react-navigation-stack";
 import MyAccountScreen from "../screens/Account/MyAccount";
 import LoginScreen from "../screens/Account/Login";
 import RegisterScreen from "../screens/Account/Register";
+import UseCameraScreen from "../screens/Account/UseCamera";
 
 const AccountScreenStacks = createStackNavigator({
   MyAccount: {
@@ -20,6 +21,12 @@ const AccountScreenStacks = createStackNavigator({
     screen: RegisterScreen,
     navigationOptions: () => ({
       title: "Registro"
+    })
+  },
+  UseCamera: {
+    screen: UseCameraScreen,
+    navigationOptions: () => ({
+      title: "Cámara"
     })
   }
 });

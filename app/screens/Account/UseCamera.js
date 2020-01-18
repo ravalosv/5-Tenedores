@@ -3,6 +3,8 @@ import { Text, View, TouchableOpacity } from "react-native";
 import { Camera } from "expo-camera";
 
 export default function UseCamera() {
+  console.log("USE CAMERA3");
+
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
 
