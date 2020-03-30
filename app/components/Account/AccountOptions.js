@@ -4,7 +4,7 @@ import { ListItem } from "react-native-elements";
 import Modal from "../Modal";
 
 export default function AccountOptions() {
-  const [isVisibleModal, setIsVisibleModal] = useState(true);
+  const [isVisibleModal, setIsVisibleModal] = useState(false);
 
   const menuOptions = [
     {
@@ -14,7 +14,7 @@ export default function AccountOptions() {
       iconColorLeft: "#ccc",
       iconNameRight: "chevron-right",
       iconColorRight: "#ccc",
-      onPress: () => console.log("Change displayName")
+      onPress: () => SelectedComponent()
     },
     {
       title: "Cambiar email",
@@ -35,6 +35,10 @@ export default function AccountOptions() {
       onPress: () => console.log("Change password")
     }
   ];
+
+  const SelectedComponent =() => {
+    setIsVisibleModal(true);
+  }
   return (
     <View>
       {menuOptions.map((menu, index) => (
